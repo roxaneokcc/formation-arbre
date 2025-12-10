@@ -1,0 +1,764 @@
+/* ==========================
+   BASE & VARIABLES
+   ========================== */
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-font-smoothing: antialiased;
+    text-size-adjust: 100%;
+}
+
+:root {
+    --color-dark-green: #163625;
+    --color-text: #3c4540;
+    /* CORRECTION : On remet le beige pour la bordure du bloc texte */
+    --color-panel-outer: #f1eee7;
+    --color-panel-inner: #ffffff;
+    --color-cta: #f6931d;
+    --color-cta-hover: #e47f07;
+}
+
+/* ==========================
+   FONTS
+   ========================== */
+@font-face {
+    font-family: 'gothambook';
+    src: url('../font/gotham-book-webfont.woff2') format('woff2'),
+        url('../font/gotham-book-webfont.woff') format('woff');
+    font-weight: 400;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'gothambold';
+    src: url('../font/gotham-bold-webfont.woff2') format('woff2'),
+        url('../font/gotham-bold-webfont.woff') format('woff');
+    font-weight: 700;
+    font-style: normal;
+    font-display: swap;
+}
+
+body {
+    margin: 0;
+    font-family: 'gothambook', system-ui, -apple-system, BlinkMacSystemFont,
+        'Segoe UI', sans-serif;
+    color: #1a1f1b;
+}
+
+/* ==========================
+   BANDEAU LOGOS TOP-LEFT
+   ========================== */
+.brand-banner {
+    position: absolute;
+    top: 0;
+    left: 90px;
+    z-index: 10;
+    background: #ffffff;
+    padding: 24px 20px;
+}
+
+.brand-banner__inner {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.brand-banner__logo {
+    display: block;
+    object-fit: contain;
+}
+
+/* GARNIER un peu plus petit */
+.brand-banner__logo--garnier {
+    height: 38px;
+}
+
+/* WWF plus grand (référence pour le trait) */
+.brand-banner__logo--wwf {
+    height: 74px;
+}
+
+/* Trait exactement de la même hauteur que le logo WWF */
+.brand-banner__divider {
+    width: 1px;
+    height: 74px;
+    /* même valeur que .brand-banner__logo--wwf */
+    background: #d3d3d3;
+}
+
+/* ==========================
+   HERO GLOBAL (NOUVELLE ARCHI)
+   ========================== */
+
+/* Coquille avec le fond – sur <main class="hero-shell"> */
+.hero-shell {
+    position: relative;
+    min-height: 100vh;
+    padding: 100px 48px 80px;
+
+    /* On utilise la variable CSS venant du HTML */
+    background-image: var(--hero-bg);
+    background-size: cover;
+    /* ou contain si tu veux voir toute l’image */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-color: #000;
+    /* couleur derrière si bandes */
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Overlay sombre au-dessus du fond */
+.hero__overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.25);
+    z-index: 0;
+}
+
+/* Un "slide" hero – sur <section class="hero"> */
+.hero {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    display: none;
+}
+
+.hero__inner {
+    width: 100%;
+    max-width: 1280px;
+    margin: 0 auto;
+}
+
+.hero.hero--active {
+  display: block;
+}
+
+.hero__grid {
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* ==========================
+   BLOC GAUCHE VISUEL
+   ========================== */
+
+.hero-card__frame {
+    background: transparent;
+    border: 1.5px solid #ffffff;
+
+    width: 460px;
+    height: 620px;
+
+    display: flex;
+    flex-direction: column;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+}
+
+.hero-card__image {
+    flex: 1;
+    width: 100%;
+    min-height: 0;
+    background: none;
+    /* "trou" transparent */
+}
+
+/* Bande blanche inférieure avec logos */
+.hero-card__bottom {
+    display: flex;
+    flex-direction: column;
+    /* Collective au-dessus, logos en dessous */
+    align-items: flex-end;
+    /* tout collé à droite */
+    gap: 16px;
+
+    padding: 14px 18px 14px 28px;
+    background: #ffffff;
+    border-top: 4px solid #ffffff;
+}
+
+.collective-logo {
+    display: block;
+    height: 48px;
+    width: auto;
+}
+
+.hero-card__bottom-right {
+    display: flex;
+    align-items: flex-end;
+    gap: 14px;
+}
+
+.hero-card__brand-logo {
+    height: 28px;
+    object-fit: contain;
+}
+
+/* Logo Garnier (1er) plus petit */
+.hero-card__bottom-right img:first-child {
+    height: 24px;
+    margin-bottom: 4px;
+}
+
+/* Logo WWF plus grand + ligne à gauche à la même hauteur */
+.hero-card__bottom-right img:last-child {
+    height: 40px;
+    padding-left: 12px;
+    border-left: 1px solid #000;
+}
+
+
+/* ==========================
+   BLOC DROITE TEXTE (BORDURE BEIGE)
+   ========================== */
+
+.hero-card--text {
+    display: flex;
+}
+
+.hero-panel__outer {
+    background: var(--color-panel-outer);
+
+    width: 720px;
+    height: 620px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+
+    /* MODIFICATION ICI : On réduit l'épaisseur de la bordure beige */
+    padding: 48px; /* Au lieu de 68px */
+}
+
+.hero-panel__inner {
+    background: #ffffff;
+    width: 100%;
+    height: 100%;
+
+    /* MODIFICATION ICI : On réduit l'espace interne autour du texte */
+    padding: 32px; /* Au lieu de 40px */
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    text-align: left;
+}
+
+.hero-panel__title {
+    margin: 0 0 20px;
+    font-size: 36px;
+    line-height: 1.2;
+    text-transform: uppercase;
+    color: var(--color-dark-green);
+    font-family: 'gothambold', system-ui, sans-serif;
+    letter-spacing: -0.02em;
+}
+
+.hero-panel__text {
+    margin: 0 0 20px;
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--color-text);
+    font-family: 'gothambook', system-ui, sans-serif;
+}
+
+/* ==========================
+   CTA / BOUTON
+   ========================== */
+
+.btn {
+    border: none;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 16px 42px;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    font-family: 'gothambold', system-ui, sans-serif;
+    transition: all 0.2s ease-out;
+    align-self: flex-start;
+}
+
+.hero-panel__cta {
+    background: var(--color-cta);
+    color: #ffffff;
+}
+
+.hero-panel__cta:hover,
+.hero-panel__cta:focus-visible {
+    background: var(--color-cta-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 10px 25px rgba(246, 147, 29, 0.4);
+}
+
+
+/* ==========================
+   STYLES SPÉCIFIQUES QUIZ
+   ========================== */
+
+/* Couleur verte pour les lettres A */
+.text-green {
+    color: #007A3E;
+}
+
+/* Classe pour agrandir uniquement la lettre spécifique */
+.text-big {
+    font-size: 2em; /* 1.5 fois la taille normale du titre */
+    margin-right: 5px; /* Un peu d'espace après le gros A */
+}
+
+/* Ajustement du titre quiz */
+.title-quiz {
+    margin-bottom: 15px;
+}
+
+.quiz-question {
+    font-weight: 400;
+    margin-bottom: 20px;
+}
+
+/* --- BARRE DE PROGRESSION (CORRIGÉE) --- */
+.quiz-progress-bar {
+    width: 100%;
+    height: 5px;            /* Épaisseur */
+    background-color: #E6E6E6; /* Fond gris */
+    border-radius: 3px;
+    
+    /* Marges pour l'espacement */
+    margin-top: 20px; 
+    margin-bottom: 35px; 
+    
+    overflow: hidden;
+    
+    /* SOLUTION AU BUG : Empêche le flexbox d'écraser la barre à 0px */
+    flex-shrink: 0; 
+}
+
+.quiz-progress-fill {
+    height: 100%;
+    background-color: #3C4540; /* Couleur de remplissage */
+    border-radius: 3px;
+    transition: width 0.5s ease-out;
+}
+
+/* --- BOUTONS QUIZ --- */
+.quiz-options {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    width: 100%;
+}
+
+.btn-quiz {
+    background: #ffffff;
+    border: 1px solid #1a1f1b;
+    color: #1a1f1b;
+    padding: 18px 24px;
+    font-size: 16px;
+    font-family: 'gothambold', sans-serif;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    width: 100%;
+}
+
+.btn-quiz:hover {
+    background-color: #f9f9f9;
+}
+
+/* ÉTAT : BONNE RÉPONSE */
+.btn-quiz.is-correct {
+    background-color: #007A3E;
+    color: #ffffff;
+    border-color: #007A3E;
+}
+
+/* ÉTAT : MAUVAISE RÉPONSE */
+.btn-quiz.is-wrong {
+    background-color: #D32F2F;
+    color: #ffffff;
+    border-color: #D32F2F;
+    animation: shake 0.4s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+}
+
+/* ==========================
+   VARIANTE : HERO MODE VIDÉO (Centré)
+   ========================== */
+
+/* 1. La grille : on centre la carte au milieu de l'écran */
+.hero--video .hero__grid {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+/* 2. On cache la carte visuelle */
+.hero--video .hero-card--visual {
+    display: none; 
+}
+
+/* 3. La carte texte devient le conteneur principal */
+.hero--video .hero-card--text {
+    width: 100%;
+    /* MODIF 1 : On réduit la largeur max pour rendre le bloc plus carré */
+    max-width: 700px; /* C'est cette valeur qui contrôle la largeur globale. Ajuste si besoin. */
+}
+
+/* 4. On supprime le cadre beige extérieur */
+.hero--video .hero-panel__outer {
+    background: transparent;
+    padding: 0;
+    box-shadow: none;
+    width: 100%;
+    /* On centre le tout */
+    display: flex;
+    justify-content: center;
+}
+
+/* 5. LE BLOC BLANC INTERNE */
+.hero--video .hero-panel__inner {
+    background: #ffffff;
+    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+    padding: 50px;
+    width: 100%; /* Prend toute la largeur du max-width: 700px défini au-dessus */
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start; 
+    text-align: left;
+}
+
+/* 6. Le Titre */
+.hero--video .hero-panel__title {
+    margin-bottom: 30px;
+    width: 100%;
+}
+
+/* 7. La Vidéo - C'est ici que la magie opère pour le format */
+.video-container {
+    width: 100%;
+    /* MODIF 2 : On force un ratio 4/3 (plus carré qu'un 16/9) */
+    aspect-ratio: 4 / 3; 
+    background-color: #000;
+    margin: 0 0 30px;
+    border-radius: 4px;
+    overflow: hidden;
+    position: relative;
+}
+
+/* IMPORTANT : On s'assure que la vidéo remplit bien tout cet espace */
+.video-player {
+    width: 100%;
+    height: 100%;
+    /* MODIF 3 : "cover" force la vidéo à remplir tout le bloc sans bandes noires */
+    object-fit: cover; 
+    display: block;
+}
+
+/* 8. LE BOUTON OUTLINE (Aligné à droite) */
+.btn--outline {
+    background-color: transparent;
+    border: 2px solid var(--color-cta);
+    color: var(--color-cta);
+    font-weight: 700;
+    align-self: flex-end; 
+    width: auto;
+}
+
+.btn--outline:hover {
+    background-color: var(--color-cta);
+    color: #ffffff;
+}
+
+/* ==========================
+   STYLES FINAUX (Écran Bravo)
+   ========================== */
+
+.final-actions {
+    display: flex;
+    flex-direction: column;
+    gap: 15px; /* Espace entre les deux boutons */
+    width: 100%;
+    margin-top: 10px;
+}
+
+/* Force les boutons à prendre toute la largeur disponible */
+.btn-full {
+    width: 100% !important; 
+    text-align: center;
+    justify-content: center;
+    align-self: auto !important; /* Annule l'alignement à droite de la vidéo */
+}
+
+.btn-share {
+    display: inline-flex;
+    align-items: center;
+}
+
+/* Lien <a> qui doit ressembler à un bouton */
+a.btn {
+    text-decoration: none;
+}
+
+/* ==========================
+   RESPONSIVE SIMPLE
+   ========================== */
+
+@media (max-width: 1150px) {
+    .hero-shell {
+        padding: 120px 24px 60px;
+        /* espace sous le header fixe */
+    }
+
+    /* HEADER : barre blanche pleine largeur collée en haut */
+    .brand-banner {
+        position: fixed;
+        top: 0;
+        left: 0;
+        right: 0;
+        z-index: 10;
+        background: #ffffff;
+        padding: 12px 20px;
+        transform: none;
+        /* on enlève le translateX */
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+    }
+
+    .brand-banner__inner {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        /* logos à gauche */
+        gap: 16px;
+    }
+
+    .brand-banner__logo--garnier {
+        height: 30px;
+    }
+
+    .brand-banner__logo--wwf {
+        height: 40px;
+    }
+
+    .brand-banner__divider {
+        height: 40px;
+    }
+
+    /* Les 2 cartes passent en colonne (pour tablettes) */
+    .hero__grid {
+        flex-direction: column;
+        height: auto;
+        align-items: center;
+        gap: 40px;
+    }
+
+    .hero-card__frame,
+    .hero-panel__outer {
+        width: 100%;
+        max-width: 500px;
+        height: auto;
+    }
+
+    .hero-card__frame {
+        height: 500px;
+    }
+
+    .hero-panel__outer {
+        padding: 24px;
+    }
+
+    .hero-panel__inner {
+        padding: 30px;
+    }
+
+    .hero-panel__title {
+        font-size: 28px;
+    }
+}
+
+/* MOBILE PUR (maquette iPhone) - Version Optimisée */
+@media (max-width: 768px) {
+
+  /* -----------------------------------------------------------
+     1. FIX DU FOND QUI BOUGE (BACKGROUND FIXE)
+     On retire l'image du .hero-shell et on la met dans un pseudo-élément fixe
+  ----------------------------------------------------------- */
+  .hero-shell {
+    /* On garde la structure flex */
+    width: 100%;
+    min-height: 100vh;
+    position: relative;
+    z-index: 1;
+
+    /* On nettoie le background ici car on le gère via ::before */
+    background: none !important; 
+    
+    /* PADDING & ALIGNEMENT */
+    /* 120px en haut = espace de sécurité pour ne pas toucher le logo */
+    padding: 120px 0 0; 
+
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Colle tout le contenu en bas */
+    align-items: center;
+  }
+
+  /* Création du fond "gelé" */
+  .hero-shell::before {
+    content: '';
+    position: fixed; /* C'est le secret : position fixe par rapport à l'écran */
+    inset: 0;        /* Prend tout l'écran */
+    width: 100%;
+    height: 100%;
+    z-index: -1;     /* Derrière le contenu */
+    
+    /* On récupère ta variable d'image */
+    background-image: var(--hero-bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    
+    /* Astuce perf mobile pour éviter les bugs de repaint */
+    transform: translateZ(0); 
+    transition: background-image 0.5s ease-in-out; /* Transition douce si tu changes d'image plus tard */
+  }
+
+  /* L'overlay sombre doit aussi être fixe pour couvrir tout l'écran */
+  .hero__overlay {
+    position: fixed;
+    inset: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 0;
+  }
+
+  /* -----------------------------------------------------------
+     2. CONTENU & SCROLL
+  ----------------------------------------------------------- */
+  
+  .hero-card--visual {
+    display: none;
+  }
+
+  .hero__inner {
+    width: 100%;
+    margin: 0;
+    position: relative;
+    z-index: 2; /* Devant l'overlay */
+  }
+
+  .hero__grid {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    /* On enlève les marges forcées. Flex-end du parent gère tout. */
+    margin: 0;
+  }
+
+  /* 3. Le Cadre Beige (Outer) */
+  .hero-panel__outer {
+    width: 100%;
+    height: auto;
+    
+    padding: 20px; /* Bordure beige */
+    
+    background: var(--color-panel-outer);
+    /* Ombre vers le haut pour bien détacher du fond */
+    box-shadow: 0 -10px 30px rgba(0,0,0,0.2); 
+    border-radius: 0; 
+  }
+
+  /* 4. Le Contenu Blanc (Inner) */
+  .hero-panel__inner {
+    width: 100%;
+    background: #ffffff;
+    padding: 30px 24px;
+    
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  /* TYPOGRAPHIE */
+  .hero-panel__title {
+    font-size: 26px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+  }
+
+  .hero-panel__text {
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 30px;
+  }
+
+  /* BOUTON FULL WIDTH */
+  .btn.hero-panel__cta {
+    width: 100%;
+    justify-content: center;
+    padding: 18px 0;
+    font-size: 15px;
+  }
+
+  /* HEADER */
+  .brand-banner {
+    padding: 15px 20px;
+    width: 100%;
+  }
+  
+  .brand-banner__logo--garnier {
+    height: 26px;
+  }
+  .brand-banner__logo--wwf {
+    height: 50px;
+  }
+  .brand-banner__divider {
+    height: 50px;
+  }
+
+  .title-quiz {
+    font-size: 24px;
+}
+    
+.btn-quiz {
+    padding: 16px 20px;
+    font-size: 15px;
+}
+.quiz-progress-bar {
+        margin-bottom: 25px;
+        margin-top: 15px;
+    }
+
+.hero--video .hero-panel__inner {
+        padding: 30px 20px;
+        align-items: center; /* Sur mobile, on recentre tout c'est plus joli */
+        text-align: center;
+    }
+    
+    .hero--video .btn--outline {
+        align-self: center; /* Sur mobile, bouton au centre ou full width selon ton goût */
+        width: 100%;        /* Je te conseille 100% sur mobile pour le clic facile */
+    }
+}
