@@ -38,6 +38,29 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   }
 
+  /* --- PRELOAD DES IMAGES (NOUVEAU) --- */
+
+  function preloadImages() {
+    heroes.forEach(hero => {
+      const bgString = hero.dataset.bg;
+      
+      if (bgString) {
+        let cleanPath = bgString
+            .replace(/^url\(['"]?/, '')  
+            .replace(/['"]?\)$/, '')     
+            .replace('../', '');         
+
+        if (cleanPath) {
+          const img = new Image();
+          img.src = cleanPath;
+        }
+      }
+    });
+  }
+  
+  preloadImages();
+
+
   /* --- NAVIGATION SIMPLE (BOUTONS) --- */
   document.addEventListener("click", (event) => {
     const btn = event.target.closest("[data-next-hero]:not(.btn-quiz)");
@@ -66,14 +89,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
     let nextStepId = quizBtn.dataset.nextHero;
 
-    // Verrouille le quiz
     parentContainer.classList.add("answered");
 
     if (isCorrect) {
-      // -- JUSTE --
       quizBtn.classList.add("is-correct");
     } else {
-      // -- FAUX --
       quizBtn.classList.add("is-wrong");
 
       const correctBtn = parentContainer.querySelector('[data-correct="true"]');
