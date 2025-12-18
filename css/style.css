@@ -215,6 +215,9 @@ body {
     align-items: center;
     box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
     padding: 48px;
+    position: relative; /* Devient le point de repère */
+    overflow: visible !important; /* CRUCIAL : Autorise le débordement */
+    z-index: 10;
 }
 
 .hero-panel__inner {
@@ -496,18 +499,20 @@ a.btn {
 
 .badge-certif {
     position: absolute;
-    z-index: 20;
-    top: -100px;
-    right: -100px;
-    width: 150px;
+    z-index: 50; /* Doit être bien au-dessus */
+    
+    /* Nouvelles coordonnées */
+    top: -60px;  /* Remonte au-dessus du bord beige */
+    right: -60px; /* Sort sur la droite */
+    
+    width: 150px; /* On s'assure de la taille */
     height: auto;
 }
-
 
 /* --- Styles pour la vidéo de fond --- */
 .hero {
     position: relative;
-    overflow: hidden; /* Empêche la vidéo de déborder */
+    overflow: visible; /* Empêche la vidéo de déborder */
 }
 
 .hero-bg-video {
@@ -766,6 +771,7 @@ a.btn {
 
     .hero-panel__outer {
         width: 100%;
+        overflow: visible !important;
         height: auto;
         padding: 15px;
         background: var(--color-panel-outer);
