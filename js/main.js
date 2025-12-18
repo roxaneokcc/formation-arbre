@@ -11,9 +11,9 @@ document.addEventListener("DOMContentLoaded", () => {
   function showHero(heroId) {
     if (!heroId) return;
 
-    // Pause des vidéos en arrière-plan quand on change de slide
-    document.querySelectorAll('video').forEach(vid => {
-      vid.pause();
+    // Pause toutes les vidéos quand on change de slide
+    document.querySelectorAll("video").forEach((vid) => {
+      try { vid.pause(); } catch (e) {}
     });
 
     heroes.forEach((hero) => {
@@ -24,14 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
         heroShell.style.setProperty("--hero-bg", hero.dataset.bg);
       }
     });
-    window.scrollTo({
-      top: 0,
-      behavior: "smooth"
-    });
+
+    window.scrollTo({ top: 0, behavior: "smooth" });
   }
 
   /* --- INIT --- */
-  const firstHero = heroes.find((h) => h.classList.contains("hero--active")) || heroes[0];
+  const firstHero =
+    heroes.find((h) => h.classList.contains("hero--active")) || heroes[0];
+
   if (firstHero) {
     firstHero.classList.add("hero--active");
     if (firstHero.dataset.bg) {
@@ -41,14 +41,15 @@ document.addEventListener("DOMContentLoaded", () => {
 
   /* --- PRELOAD DES IMAGES --- */
   function preloadImages() {
-    heroes.forEach(hero => {
+    heroes.forEach((hero) => {
       const bgString = hero.dataset.bg;
-      
+
       if (bgString) {
+        // bgString = "url('../img/bg-forest-1.jpg')" etc.
         let cleanPath = bgString
-            .replace(/^url\(['"]?/, '')  
-            .replace(/['"]?\)$/, '')     
-            .replace('../', '');        
+          .replace(/^url\(['"]?/, "")
+          .replace(/['"]?\)$/, "")
+          .replace("../", ""); // compat avec ton set actuel
 
         if (cleanPath) {
           const img = new Image();
@@ -57,7 +58,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   }
-  
+
   preloadImages();
 
   /* --- NAVIGATION SIMPLE (BOUTONS) --- */
@@ -79,10 +80,9 @@ document.addEventListener("DOMContentLoaded", () => {
     if (!quizBtn) return;
 
     const parentContainer = quizBtn.closest(".quiz-options");
+    if (!parentContainer) return;
 
-    if (parentContainer.classList.contains("answered")) {
-      return;
-    }
+    if (parentContainer.classList.contains("answered")) return;
 
     const isCorrect = quizBtn.dataset.correct === "true";
     let nextStepId = quizBtn.dataset.nextHero;
@@ -105,66 +105,53 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     if (nextStepId) {
-      setTimeout(() => {
-        showHero(nextStepId);
-      }, 1500);
+      setTimeout(() => showHero(nextStepId), 1500);
     }
   });
 
-  /* --- PARTAGE NATIF STRICT (IMAGE PRIORITAIRE) --- */
-  const shareButton = document.querySelector('.btn-share');
+  /* --- PARTAGE (OPTION B : URL share.html dédiée avec OG carré) --- */
+  document.addEventListener("click", async (event) => {
+    const shareBtn = event.target.closest(".btn-share");
+    if (!shareBtn) return;
 
-  if (shareButton) {
-    shareButton.addEventListener('click', async () => {
-      
-      // Données du partage
-      const shareData = {
-        title: 'Collective for the Planet – Garnier x WWF',
-        text: 'Je viens de me former à la méthode A.R.B.R.E avec Garnier x WWF ! À ton tour ? 🌲',
-        url: window.location.href
-      };
+    // URL à partager : soit via data-share-url, soit auto -> /share.html
+    const shareUrl =
+      shareBtn.dataset.shareUrl || new URL("share.html", window.location.href).href;
 
-      // Ton image carrée spécifique
-      const imageUrl = 'img/share-square.jpg'; 
+    const shareData = {
+      title: "Collective for the Planet – Garnier x WWF",
+      text: "Je viens de me former à la méthode A.R.B.R.E avec Garnier x WWF ! À ton tour ? 🌲",
+      url: shareUrl,
+    };
 
-      // Si le navigateur ne gère PAS le partage natif (ex: Firefox Desktop), on arrête là.
-      if (!navigator.share) {
-        alert("Le partage natif n'est pas disponible sur cet appareil.");
-        return;
-      }
-
+    // Partage natif si dispo (iOS/Android + certains desktop)
+    if (navigator.share) {
       try {
-        // 1. On tente de préparer l'image
-        const response = await fetch(imageUrl);
-        const blob = await response.blob();
-        const file = new File([blob], 'certificat-arbre.jpg', { type: 'image/jpeg' });
-
-        // 2. On vérifie si on peut partager des fichiers
-        if (navigator.canShare && navigator.canShare({ files: [file] })) {
-          
-          // TENTATIVE PRIORITAIRE : IMAGE + TEXTE
-          await navigator.share({
-            files: [file],
-            title: shareData.title,
-            text: shareData.text,
-            url: shareData.url
-          });
-          
-        } else {
-          // Si l'appareil refuse les fichiers, on lance une erreur pour passer au "catch"
-          throw new Error('Partage de fichier non supporté');
-        }
-
+        await navigator.share(shareData);
+        return;
       } catch (err) {
-        // 3. FALLBACK NATIF : Si l'image échoue, on ouvre quand même le menu natif (Lien seul)
-        // C'est souvent le cas sur Desktop (Mac/PC) qui préfèrent partager des liens.
-        try {
-          await navigator.share(shareData);
-        } catch (finalErr) {
-          console.log('Partage annulé par l\'utilisateur ou impossible.');
-        }
+        // utilisateur annule / erreur -> fallback plus bas
+        console.log("Partage annulé ou impossible:", err);
       }
-    });
-  } 
+    }
 
+    // Fallback universel : copie du lien
+    try {
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        await navigator.clipboard.writeText(shareUrl);
+        alert("Lien de partage copié 🙂");
+      } else {
+        // fallback old school
+        const tmp = document.createElement("input");
+        tmp.value = shareUrl;
+        document.body.appendChild(tmp);
+        tmp.select();
+        document.execCommand("copy");
+        document.body.removeChild(tmp);
+        alert("Lien de partage copié 🙂");
+      }
+    } catch (e) {
+      alert("Impossible de copier le lien sur cet appareil.");
+    }
+  });
 });
