@@ -4,862 +4,623 @@
 
 *,
 *::before,
-*::after {
-    box-sizing: border-box;
-}
+*::after { box-sizing: border-box; }
 
 html {
-    -webkit-font-smoothing: antialiased;
-    text-size-adjust: 100%;
+  -webkit-font-smoothing: antialiased;
+  -webkit-text-size-adjust: 100%;
+  text-size-adjust: 100%;
 }
 
 :root {
-    --color-dark-green: #163625;
-    --color-text: #3c4540;
-    --color-panel-outer: #f1eee7;
-    --color-panel-inner: #ffffff;
-    --color-cta: #f6931d;
-    --color-cta-hover: #e47f07;
+  --color-dark-green: #163625;
+  --color-text: #3c4540;
+  --color-panel-outer: #f1eee7;
+  --color-panel-inner: #ffffff;
+  --color-cta: #f6931d;
+  --color-cta-hover: #e47f07;
 }
 
 /* ==========================
    FONTS
    ========================== */
 @font-face {
-    font-family: 'gothambook';
-    src: url('../font/gotham-book-webfont.woff2') format('woff2'),
-         url('../font/gotham-book-webfont.woff') format('woff');
-    font-weight: 400;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'gothambook';
+  src: url('../font/gotham-book-webfont.woff2') format('woff2'),
+       url('../font/gotham-book-webfont.woff') format('woff');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
 }
 
 @font-face {
-    font-family: 'gothambold';
-    src: url('../font/gotham-bold-webfont.woff2') format('woff2'),
-         url('../font/gotham-bold-webfont.woff') format('woff');
-    font-weight: 700;
-    font-style: normal;
-    font-display: swap;
+  font-family: 'gothambold';
+  src: url('../font/gotham-bold-webfont.woff2') format('woff2'),
+       url('../font/gotham-bold-webfont.woff') format('woff');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
 }
 
 body {
-    margin: 0;
-    font-family: 'gothambook', system-ui, -apple-system, BlinkMacSystemFont,
-        'Segoe UI', sans-serif;
-    color: #1a1f1b;
+  margin: 0;
+  font-family: 'gothambook', system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  color: #1a1f1b;
 }
 
 /* ==========================
    BANDEAU LOGOS TOP-LEFT
    ========================== */
 .brand-banner {
-    position: absolute;
-    top: 0;
-    left: 90px;
-    z-index: 10;
-    background: #ffffff;
-    padding: 24px 20px;
+  position: absolute;
+  top: 0;
+  left: 90px;
+  z-index: 10;
+  background: #ffffff;
+  padding: 24px 20px;
 }
 
-.brand-banner__inner {
-    display: flex;
-    align-items: center;
-    gap: 24px;
-}
-
-.brand-banner__logo {
-    display: block;
-    object-fit: contain;
-}
-
-.brand-banner__logo--garnier {
-    height: 38px;
-}
-
-.brand-banner__logo--wwf {
-    height: 74px;
-}
-
-.brand-banner__divider {
-    width: 1px;
-    height: 74px;
-    background: #d3d3d3;
-}
+.brand-banner__inner { display: flex; align-items: center; gap: 24px; }
+.brand-banner__logo { display: block; object-fit: contain; }
+.brand-banner__logo--garnier { height: 38px; }
+.brand-banner__logo--wwf { height: 74px; }
+.brand-banner__divider { width: 1px; height: 74px; background: #d3d3d3; }
 
 /* ==========================
    HERO GLOBAL
    ========================== */
 
 .hero-shell {
-    position: relative;
-    min-height: 100vh;
-    padding: 100px 48px 80px;
+  position: relative;
+  min-height: 100vh;
+  padding: 100px 48px 80px;
 
-    background-image: var(--hero-bg);
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-color: #000;
+  background-image: var(--hero-bg);
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-color: #000;
 
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  overflow: hidden;
+}
+
+/* ==========================
+   VIDEO BG (NOUVELLE VERSION UNIQUE)
+   ========================== */
+
+.hero-bg {
+  position: fixed;
+  inset: 0;
+  z-index: 0; 
+  pointer-events: none;
+  
+  opacity: 0;
+  visibility: hidden;
+  background-color: #000;
+  
+  transition: opacity 0.5s ease;
+}
+
+.hero-bg__video {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+
+.hero-shell.has-bg-video .hero-bg {
+  opacity: 1;
+  visibility: visible;
+}
+
+.hero-shell.has-bg-video {
+  background-image: none !important;
 }
 
 .hero__overlay {
-    position: absolute;
-    inset: 0;
-    background: rgba(0, 0, 0, 0.25);
-    z-index: 0;
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.25);
+  z-index: 1;
+  pointer-events: none;
 }
 
+/* ==========================
+   CONTENU DES SECTIONS (HERO)
+   ========================== */
 .hero {
-    position: relative;
-    z-index: 1;
-    width: 100%;
-    display: none;
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  display: none;
 }
+.hero.hero--active { display: block; }
 
 .hero__inner {
-    width: 100%;
-    max-width: 1280px;
-    margin: 0 auto;
-}
-
-.hero.hero--active {
-    display: block;
+  width: 100%;
+  max-width: 1280px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 2;
 }
 
 .hero__grid {
-    display: flex;
-    align-items: stretch;
-    justify-content: center;
-    gap: 10px;
+  display: flex;
+  align-items: stretch;
+  justify-content: center;
+  gap: 10px;
 }
 
 /* ==========================
-   BLOC GAUCHE VISUEL
+   BLOC GAUCHE (VISUEL)
    ========================== */
 
 .hero-card__frame {
-    background: transparent;
-    border: 1.5px solid #ffffff;
-    width: 460px;
-    height: 670px;
-    display: flex;
-    flex-direction: column;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  background: transparent;
+  border: 1.5px solid #ffffff;
+  width: 460px;
+  height: 670px;
+  display: flex;
+  flex-direction: column;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
 }
 
 .hero-card__image {
-    flex: 1;
-    width: 100%;
-    min-height: 0;
-    background: none;
+  flex: 1;
+  width: 100%;
+  min-height: 0;
+  background: none;
 }
 
 .hero-card__bottom {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    gap: 16px;
-    padding: 14px 18px 14px 28px;
-    background: #ffffff;
-    border-top: 4px solid #ffffff;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 16px;
+  padding: 14px 18px 14px 28px;
+  background: #ffffff;
+  border-top: 4px solid #ffffff;
 }
 
-.collective-logo {
-    display: block;
-    height: 48px;
-    width: auto;
-}
+.collective-logo { display: block; height: 48px; width: auto; }
 
 .hero-card__bottom-right {
-    display: flex;
-    align-items: flex-end;
-    gap: 14px;
+  display: flex;
+  align-items: flex-end;
+  gap: 14px;
 }
 
-.hero-card__brand-logo {
-    height: 28px;
-    object-fit: contain;
-}
+.hero-card__brand-logo { height: 28px; object-fit: contain; }
 
 .hero-card__bottom-right img:first-child {
-    height: 24px;
-    margin-bottom: 4px;
+  height: 24px;
+  margin-bottom: 4px;
 }
 
 .hero-card__bottom-right img:last-child {
-    height: 40px;
-    padding-left: 12px;
-    border-left: 1px solid #d3d3d3;
+  height: 40px;
+  padding-left: 12px;
+  border-left: 1px solid #d3d3d3;
 }
-
 
 /* ==========================
-   BLOC DROITE TEXTE
+   BLOC DROITE (TEXTE)
    ========================== */
 
-.hero-card--text {
-    display: flex;
-}
+.hero-card--text { display: flex; }
 
 .hero-panel__outer {
-    background: var(--color-panel-outer);
-    width: 720px;
-    height: 670px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
-    padding: 48px;
-    position: relative; /* Devient le point de repère */
-    overflow: visible !important; /* CRUCIAL : Autorise le débordement */
-    z-index: 10;
+  background: var(--color-panel-outer);
+  width: 720px;
+  height: 670px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  padding: 48px;
+  position: relative;
+  overflow: visible;
+  z-index: 10;
 }
 
 .hero-panel__inner {
-    background: #ffffff;
-    width: 100%;
-    height: 100%;
-    padding: 20px 32px 32px 32px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    text-align: left;
-    position: relative;
-    overflow: visible !important;
+  background: #ffffff;
+  width: 100%;
+  height: 100%;
+  padding: 20px 32px 32px 32px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: left;
+  position: relative;
+  overflow: visible;
 }
 
 .hero-panel__title {
-    margin: 0 0 20px;
-    font-size: 36px;
-    line-height: 1.2;
-    text-transform: uppercase;
-    color: var(--color-dark-green);
-    font-family: 'gothambold', system-ui, sans-serif;
-    letter-spacing: -0.02em;
+  margin: 0 0 20px;
+  font-size: 36px;
+  line-height: 1.2;
+  text-transform: uppercase;
+  color: var(--color-dark-green);
+  font-family: 'gothambold', system-ui, sans-serif;
+  letter-spacing: -0.02em;
 }
 
 .hero-panel__text {
-    margin: 0 0 20px;
-    font-size: 16px;
-    line-height: 1.6;
-    color: var(--color-text);
-    font-family: 'gothambook', system-ui, sans-serif;
+  margin: 0 0 20px;
+  font-size: 16px;
+  line-height: 1.6;
+  color: var(--color-text);
+  font-family: 'gothambook', system-ui, sans-serif;
 }
 
 /* ==========================
-   CTA / BOUTON
+   CTA / BOUTONS
    ========================== */
 
 .btn {
-    border: none;
-    cursor: pointer;
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 16px 42px;
-    font-size: 14px;
-    font-weight: 700;
-    text-transform: uppercase;
-    letter-spacing: 0.08em;
-    font-family: 'gothambold', system-ui, sans-serif;
-    transition: all 0.2s ease-out;
-    align-self: flex-start;
+  border: none;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px 42px;
+  font-size: 14px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-family: 'gothambold', system-ui, sans-serif;
+  transition: all 0.2s ease-out;
+  align-self: flex-start;
+}
+
+.btn:focus-visible,
+.btn-quiz:focus-visible {
+  outline: 2px solid currentColor;
+  outline-offset: 3px;
 }
 
 .hero-panel__cta {
-    background: var(--color-cta);
-    color: #ffffff;
+  background: var(--color-cta);
+  color: #ffffff;
 }
 
 .hero-panel__cta:hover,
 .hero-panel__cta:focus-visible {
-    background: var(--color-cta-hover);
-    transform: translateY(-2px);
-    box-shadow: 0 10px 25px rgba(246, 147, 29, 0.4);
+  background: var(--color-cta-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(246, 147, 29, 0.4);
 }
-
 
 /* ==========================
-   STYLES SPÉCIFIQUES QUIZ
+   STYLES QUIZ
    ========================== */
 
-.text-green {
-    color: #007A3E;
-}
+.text-green { color: #007A3E; }
+.text-big { font-size: 1.5em; margin-right: 2px; }
+.title-quiz { margin-bottom: 25px; }
+.quiz-question { font-weight: 400; margin-bottom: 10px; }
 
-.text-big {
-    font-size: 1.5em; /* Ajusté pour matcher l'image */
-    margin-right: 2px;
-}
-
-.title-quiz {
-    margin-bottom: 25px;
-}
-
-.quiz-question {
-    font-weight: 400;
-    margin-bottom: 10px;
-}
-
-/* --- BARRE DE PROGRESSION --- */
 .quiz-progress-bar {
-    width: 100%;
-    height: 5px;
-    background-color: #E6E6E6;
-    border-radius: 3px;
-    margin-top: 20px;
-    margin-bottom: 35px;
-    overflow: hidden;
-    flex-shrink: 0;
+  width: 100%;
+  height: 5px;
+  background-color: #E6E6E6;
+  border-radius: 3px;
+  margin-top: 20px;
+  margin-bottom: 35px;
+  overflow: hidden;
+  flex-shrink: 0;
 }
 
 .quiz-progress-fill {
-    height: 100%;
-    background-color: #3C4540;
-    border-radius: 3px;
-    transition: width 0.5s ease-out;
+  height: 100%;
+  background-color: #3C4540;
+  border-radius: 3px;
+  transition: width 0.5s ease-out;
 }
 
-/* --- BOUTONS QUIZ --- */
 .quiz-options {
-    display: flex;
-    flex-direction: column;
-    gap: 16px;
-    width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  width: 100%;
 }
 
 .btn-quiz {
-    background: #ffffff;
-    border: 1px solid #1a1f1b;
-    color: #1a1f1b;
-    padding: 18px 24px;
-    font-size: 16px;
-    font-family: 'gothambold', sans-serif;
-    text-align: left;
-    cursor: pointer;
-    transition: all 0.2s ease;
-    width: 100%;
+  background: #ffffff;
+  border: 1px solid #1a1f1b;
+  color: #1a1f1b;
+  padding: 18px 24px;
+  font-size: 16px;
+  font-family: 'gothambold', sans-serif;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  width: 100%;
 }
 
-.btn-quiz:hover {
-    background-color: #f9f9f9;
-}
+.btn-quiz:hover { background-color: #f9f9f9; }
 
 .btn-quiz.is-correct {
-    background-color: #007A3E;
-    color: #ffffff;
-    border-color: #007A3E;
+  background-color: #007A3E;
+  color: #ffffff;
+  border-color: #007A3E;
 }
 
 .btn-quiz.is-wrong {
-    background-color: #D32F2F;
-    color: #ffffff;
-    border-color: #D32F2F;
-    animation: shake 0.4s ease-in-out;
+  background-color: #D32F2F;
+  color: #ffffff;
+  border-color: #D32F2F;
+  animation: shake 0.4s ease-in-out;
 }
 
 @keyframes shake {
-    0%, 100% { transform: translateX(0); }
-    25% { transform: translateX(-5px); }
-    75% { transform: translateX(5px); }
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
 }
 
-/* ========================================================
-   VARIANTE : HERO MODE VIDÉO (DESIGN OPTIMISÉ)
-   Cette section remplace l'ancienne logique pour correspondre
-   parfaitement à la maquette "Carte blanche + Vidéo Large"
-   ======================================================== */
+/* ==========================
+   VARIANTE : HERO MODE PLAYER VIDÉO
+   (Quand il y a une petite vidéo DANS la carte)
+   ========================== */
 
-/* Le conteneur grille s'adapte pour centrer la carte seule */
 .hero--video .hero__grid {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
 }
 
-/* On cache la carte visuelle à gauche si elle existe dans le HTML */
-.hero--video .hero-card--visual {
-    display: none;
-}
+.hero--video .hero-card--visual { display: none; }
 
-/* La carte texte prend la place centrale */
 .hero--video .hero-card--text {
-    width: 100%;
-    max-width: 900px; /* Largeur idéale pour le format vidéo */
+  width: 100%;
+  max-width: 900px;
 }
 
-/* Le fond "Beige" disparaît au profit d'un fond Blanc Pur global */
 .hero--video .hero-panel__outer {
-    background: #ffffff;
-    width: 100%;
-    height: auto;
-    padding: 50px; /* Espace blanc autour du contenu */
-    box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
-    border-radius: 0; 
+  background: #ffffff;
+  width: 100%;
+  height: auto;
+  padding: 50px;
+  box-shadow: 0 24px 60px rgba(0, 0, 0, 0.3);
+  border-radius: 0;
 }
 
-/* L'intérieur reset ses paddings car l'extérieur gère l'espacement */
 .hero--video .hero-panel__inner {
-    background: transparent;
-    padding: 0;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    text-align: left;
-    box-shadow: none;
+  background: transparent;
+  padding: 0;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  box-shadow: none;
 }
 
 .hero--video .hero-panel__title {
-    margin-bottom: 30px;
-    width: 100%;
+  margin-bottom: 30px;
+  width: 100%;
 }
 
-/* CONTENEUR VIDÉO : Format Cinéma 16/9 Force */
 .video-container {
-    width: 100%;
-    aspect-ratio: 16 / 9;
-    background-color: #000;
-    margin: 0 0 30px;
-    border-radius: 0;
-    overflow: hidden;
-    position: relative;
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background-color: #000;
+  margin: 0 0 30px;
+  border-radius: 0;
+  overflow: hidden;
+  position: relative;
 }
 
 .video-player {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
 }
 
-/* BOUTON OUTLINE (Aligné à droite) */
 .btn--outline {
-    background-color: transparent;
-    border: 2px solid var(--color-cta);
-    color: var(--color-cta);
-    font-weight: 700;
-    align-self: flex-end; /* Pousse le bouton à droite */
-    width: auto;
-    padding: 12px 25px;
+  background-color: transparent;
+  border: 2px solid var(--color-cta);
+  color: var(--color-cta);
+  font-weight: 700;
+  align-self: flex-end;
+  width: auto;
+  padding: 12px 25px;
 }
 
 .btn--outline:hover {
-    background-color: var(--color-cta);
-    color: #ffffff;
+  background-color: var(--color-cta);
+  color: #ffffff;
 }
 
 /* ==========================
-   STYLES FINAUX
+   STYLES FINAUX (BADGES & LIENS)
    ========================== */
 
 .final-actions {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-    width: 100%;
-    margin-top: 10px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  width: 100%;
+  margin-top: 10px;
 }
 
 .btn-full {
-    width: 100% !important;
-    text-align: center;
-    justify-content: center;
-    align-self: auto !important;
+  width: 100% !important;
+  text-align: center;
+  justify-content: center;
+  align-self: auto !important;
 }
 
-.btn-share {
-    display: inline-flex;
-    align-items: center;
-}
+a.btn { text-decoration: none; }
 
-a.btn {
-    text-decoration: none;
-}
-
-/* ==========================
-   BADGES (Timer & Certif)
-   ========================== */
 .badge-timer {
-    position: absolute;
-    top: 32px;
-    right: 32px;
-    z-index: 10;
-    height: 28px;
-    width: auto;
-    background-color: #ffffff;
-    border-radius: 50px;
+  position: absolute;
+  top: 32px;
+  right: 32px;
+  z-index: 10;
+  height: 28px;
+  width: auto;
+  background-color: #ffffff;
+  border-radius: 50px;
 }
 
 .badge-certif {
-    position: absolute;
-    z-index: 50; /* Doit être bien au-dessus */
-    
-    /* Nouvelles coordonnées */
-    top: -60px;  /* Remonte au-dessus du bord beige */
-    right: -60px; /* Sort sur la droite */
-    
-    width: 150px; /* On s'assure de la taille */
-    height: auto;
-}
-
-/* --- Styles pour la vidéo de fond --- */
-.hero {
-    position: relative;
-    overflow: visible; /* Empêche la vidéo de déborder */
-}
-
-.hero-bg-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover; /* C'est LA propriété magique qui imite background-size: cover */
-    z-index: 0; /* Tout au fond */
-    pointer-events: none; /* Empêche l'utilisateur de cliquer sur la vidéo par erreur */
-}
-
-/* Overlay optionnel pour assombrir la vidéo et garantir que le texte blanc reste lisible */
-.hero-bg-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.3); /* Noir à 30% d'opacité */
-    z-index: 1;
-    pointer-events: none;
-}
-
-/* On s'assure que le contenu passe DEVANT la vidéo */
-.hero__inner {
-    position: relative;
-    z-index: 2; 
-}
-
-/* ============================================================
-   RESPONSIVE LAPTOP (MacBook Pro / Écrans moyens)
-   CORRECTIF: Force la vidéo en 16/9 et adapte la hauteur de carte
-   ============================================================ */
-@media screen and (max-width: 1450px), screen and (max-height: 850px) {
-
-    .hero-shell {
-        padding: 60px 20px; /* Moins de padding haut/bas pour les petits écrans */
-        min-height: 100vh;
-        height: auto;
-        display: flex;
-        align-items: center;
-    }
-
-    /* --- Styles pour le Quiz Classique (Non-Vidéo) --- */
-    .hero-card__frame {
-        width: 380px;
-        height: 570px;
-    }
-
-    /* Attention : ceci ne s'applique PAS à la version vidéo grâce au CSS plus bas */
-    .hero-panel__outer {
-        width: 550px;
-        height: 570px;
-        padding: 30px;
-    }
-
-    .hero-panel__inner {
-        padding: 4px 4px;
-    }
-
-    .hero-panel__title {
-        font-size: 28px;
-        margin-bottom: 15px;
-    }
-
-    .hero-panel__text {
-        font-size: 15px;
-        line-height: 1.4;
-        margin-bottom: 15px;
-    }
-
-    .btn {
-        padding: 14px 32px;
-        font-size: 13px;
-    }
-
-    .hero-card__bottom {
-        padding: 12px 18px;
-    }
-
-    .collective-logo { height: 40px; }
-    
-    .brand-banner { left: 40px; padding: 16px 20px; }
-    .brand-banner__logo--garnier { height: 30px; }
-    .brand-banner__logo--wwf { height: 55px; }
-    .brand-banner__divider { height: 55px; }
-
-    /* =======================================================
-       CORRECTIF SPÉCIFIQUE VIDÉO POUR LAPTOP (1440x900)
-       ======================================================= */
-    
-    /* 1. On donne une largeur confortable à la carte texte */
-    .hero--video .hero-card--text {
-        max-width: 700px; /* Assez large pour que la vidéo respire */
-        width: 100%;
-    }
-    
-    /* 2. IMPORTANT : On annule la hauteur fixe (570px) du quiz normal */
-    .hero--video .hero-panel__outer {
-        width: 100% !important;
-        height: auto !important; /* Laisse la hauteur s'adapter au contenu */
-        min-height: 0;
-        padding: 40px; /* Espace blanc autour */
-        background: #ffffff;
-        display: flex;
-        flex-direction: column;
-        justify-content: center;
-    }
-
-    /* 3. On force le ratio 16/9 (Rectangle TV) */
-    .hero--video .video-container {
-        width: 100%;
-        height: auto !important; 
-        aspect-ratio: 16 / 9 !important; /* Force la forme rectangulaire */
-        margin-bottom: 25px;
-        background: #000;
-    }
-
-    /* 4. La vidéo remplit strictement le conteneur */
-    .video-player {
-        width: 100%;
-        height: 100% !important;
-        object-fit: cover;
-    }
-    
-    /* Ajustement titre pour laptop */
-    .hero--video .hero-panel__title {
-        font-size: 24px;
-        margin-bottom: 20px;
-    }
-
-    .quiz-progress-bar {
-        margin-top: 5px;
-        margin-bottom: 25px;
-    }
+  position: absolute;
+  z-index: 50;
+  top: -60px;
+  right: -60px;
+  width: 150px;
+  height: auto;
 }
 
 /* ==========================
-   RESPONSIVE TABLETTE (max 1150px)
+   RESPONSIVE
    ========================== */
+
+@media screen and (max-width: 1450px), screen and (max-height: 850px) {
+  .hero-shell { padding: 60px 20px; min-height: 100vh; height: auto; display: flex; align-items: center; }
+
+  .hero-card__frame { width: 380px; height: 570px; }
+  .hero-panel__outer { width: 550px; height: 570px; padding: 30px; }
+  .hero-panel__inner { padding: 16px 18px; }
+
+  .hero-panel__title { font-size: 28px; margin-bottom: 15px; }
+  .hero-panel__text { font-size: 15px; line-height: 1.4; margin-bottom: 15px; }
+
+  .btn { padding: 14px 32px; font-size: 13px; }
+  .hero-card__bottom { padding: 12px 18px; }
+
+  .collective-logo { height: 40px; }
+  .brand-banner { left: 40px; padding: 16px 20px; }
+  .brand-banner__logo--garnier { height: 30px; }
+  .brand-banner__logo--wwf { height: 55px; }
+  .brand-banner__divider { height: 55px; }
+
+  .hero--video .hero-card--text { max-width: 700px; width: 100%; }
+  .hero--video .hero-panel__outer { width: 100% !important; height: auto !important; min-height: 0; padding: 40px; }
+  .hero--video .video-container { width: 100%; height: auto !important; aspect-ratio: 16 / 9 !important; margin-bottom: 25px; }
+  .hero--video .hero-panel__title { font-size: 24px; margin-bottom: 20px; }
+  .quiz-progress-bar { margin-top: 5px; margin-bottom: 25px; }
+}
 
 @media (max-width: 1150px) {
-    .hero-shell {
-        padding: 120px 24px 60px;
-    }
+  .hero-shell { padding: 120px 24px 60px; }
 
-    .brand-banner {
-        position: fixed;
-        top: 0; left: 0; right: 0;
-        z-index: 10;
-        background: #ffffff;
-        padding: 12px 20px;
-        transform: none;
-        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
-    }
+  .brand-banner {
+    position: fixed; top: 0; left: 0; right: 0;
+    z-index: 10; background: #ffffff; padding: 12px 20px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.12);
+  }
 
-    .brand-banner__inner {
-        justify-content: flex-start;
-        gap: 16px;
-    }
-    .brand-banner__logo--garnier { height: 30px; }
-    .brand-banner__logo--wwf { height: 40px; }
-    .brand-banner__divider { height: 40px; }
+  .brand-banner__inner { justify-content: flex-start; gap: 16px; }
+  .brand-banner__logo--garnier { height: 30px; }
+  .brand-banner__logo--wwf { height: 40px; }
+  .brand-banner__divider { height: 40px; }
 
-    .hero__grid {
-        flex-direction: column;
-        height: auto;
-        align-items: center;
-        width: 100%;
-        gap: 40px;
-    }
+  .hero__grid { flex-direction: column; height: auto; align-items: center; width: 100%; gap: 40px; }
 
-    .hero-card__frame,
-    .hero-panel__outer {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-    }
+  .hero-card__frame, .hero-panel__outer { width: 100%; max-width: 100%; height: auto; }
+  .hero-card__frame { height: 500px; }
+  .hero-panel__outer { padding: 24px; }
+  .hero-panel__inner { padding: 30px; }
+  .hero-panel__title { font-size: 28px; }
 
-    .hero-card__frame { height: 500px; }
-    .hero-panel__outer { padding: 24px; }
-    .hero-panel__inner { padding: 30px; }
-    .hero-panel__title { font-size: 28px; }
-
-    /* Vidéo Tablette */
-    .hero--video .hero-card--text {
-        max-width: 100%;
-    }
-    .hero--video .video-container {
-        width: 100%;
-        aspect-ratio: 16 / 9;
-    }
+  .hero--video .hero-card--text { max-width: 100%; }
+  .hero--video .video-container { width: 100%; aspect-ratio: 16 / 9; }
 }
 
-/* ==========================
-   MOBILE PUR (max 768px)
-   ========================== */
 @media (max-width: 768px) {
+  .hero-shell {
+    width: 100%;
+    height: 100dvh;
+    min-height: -webkit-fill-available;
+    background: none !important;
+    padding: 80px 0 0;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    align-items: center;
+    overflow: hidden;
+  }
 
-    .hero-shell {
-        width: 100%;
-        height: 100dvh;
-        min-height: -webkit-fill-available;
-        position: relative;
-        z-index: 1;
-        background: none !important;
-        padding: 80px 0 0;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        align-items: center;
-        overflow: hidden;
-    }
+  .hero-shell::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background-image: var(--hero-bg);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+  
+  .hero-shell.has-bg-video::before {
+    display: none;
+  }
 
-    .hero-shell::before {
-        content: '';
-        position: fixed;
-        inset: 0;
-        width: 100%;
-        height: 100%;
-        z-index: -1;
-        background-image: var(--hero-bg);
-        background-size: cover;
-        background-position: center;
-        background-repeat: no-repeat;
-    }
+  .hero__overlay { position: fixed; inset: 0; z-index: 0; }
 
-    .hero__overlay {
-        position: fixed;
-        inset: 0;
-        height: 100%;
-        width: 100%;
-        z-index: 0;
-    }
+  .hero__inner {
+    width: 100%;
+    margin: 0;
+    position: relative;
+    z-index: 2;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+  }
 
-    .hero__inner {
-        width: 100%;
-        margin: 0;
-        position: relative;
-        z-index: 2;
-        flex: 1;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-    }
+  .hero__grid { width: 100%; margin: 0; gap: 0; }
+  .hero-card--visual { display: none; }
 
-    .hero__grid {
-        width: 100%;
-        margin: 0;
-        gap: 0;
-    }
+  .hero-panel__outer {
+    width: 100%;
+    height: auto;
+    padding: 15px;
+    background: var(--color-panel-outer);
+    box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
+  }
 
-    .hero-card--visual { display: none; }
+  .hero-panel__inner {
+    width: 100%;
+    background: #ffffff;
+    padding: 25px 20px 30px;
+    align-items: flex-start;
+    text-align: left;
+  }
 
-    .hero-panel__outer {
-        width: 100%;
-        overflow: visible !important;
-        height: auto;
-        padding: 15px;
-        background: var(--color-panel-outer);
-        box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.15);
-        border-radius: 0;
-    }
+  .hero-panel__title { font-size: 22px; line-height: 1.2; margin-bottom: 12px; }
+  .hero-panel__text { font-size: 14px; line-height: 1.4; margin-bottom: 20px; }
 
-    .hero-panel__inner {
-        width: 100%;
-        background: #ffffff;
-        padding: 25px 20px 30px;
-        border-radius: 0;
-        align-items: flex-start;
-        text-align: left;
-    }
+  .btn.hero-panel__cta {
+    width: 100%;
+    justify-content: center;
+    padding: 16px 0;
+    font-size: 14px;
+    margin-top: auto;
+  }
 
-    .hero-panel__title {
-        font-size: 22px;
-        line-height: 1.2;
-        margin-bottom: 12px;
-    }
+  .brand-banner { padding: 10px 15px; width: 100%; position: absolute; }
+  .brand-banner__logo--garnier { height: 24px; }
+  .brand-banner__logo--wwf { height: 42px; }
+  .brand-banner__divider { height: 42px; }
 
-    .hero-panel__text {
-        font-size: 14px;
-        line-height: 1.4;
-        margin-bottom: 20px;
-    }
+  .hero--video .hero-panel__outer { padding: 0; box-shadow: none; }
+  .hero--video .hero-panel__inner { padding: 20px; align-items: center; text-align: center; box-shadow: 0 -5px 20px rgba(0,0,0,0.2); }
+  .hero--video .hero-panel__title { font-size: 18px; margin-bottom: 15px; text-align: left; width: 100%; }
+  .hero--video .video-container { width: 100%; aspect-ratio: 16 / 9; margin: 0 0 20px; }
+  .hero--video .btn--outline { width: 100%; text-align: center; }
 
-    .btn.hero-panel__cta {
-        width: 100%;
-        justify-content: center;
-        padding: 16px 0;
-        font-size: 14px;
-        margin-top: auto;
-    }
-
-    .brand-banner {
-        padding: 10px 15px;
-        width: 100%;
-        position: absolute;
-    }
-    .brand-banner__logo--garnier { height: 24px; }
-    .brand-banner__logo--wwf { height: 42px; }
-    .brand-banner__divider { height: 42px; }
-
-    /* Mobile Vidéo Spécifique */
-    .hero--video .hero-panel__outer {
-        padding: 0;
-        box-shadow: none;
-    }
-    
-    .hero--video .hero-panel__inner {
-        padding: 20px;
-        align-items: center;
-        text-align: center;
-        box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
-    }
-
-    .hero--video .hero-panel__title {
-        font-size: 18px;
-        margin-bottom: 15px;
-        text-align: left;
-        width: 100%;
-    }
-
-    .hero--video .video-container {
-        width: 100%;
-        aspect-ratio: 16 / 9;
-        height: auto;
-        margin: 0 0 20px;
-    }
-
-    .hero--video .btn--outline {
-        width: 100%; /* Bouton pleine largeur sur mobile */
-        text-align: center;
-    }
-
-    .badge-timer {
-        top: -50px;
-        right: 0;
-        height: 24px;
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15);
-    }
-
-    .badge-certif {
-        right: auto;
-        left: 10px;
-        top: -120px;
-        width: 90px;
-    }
+  .badge-timer { top: -50px; right: 0; height: 24px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
+  .badge-certif { left: 10px; top: -120px; width: 90px; right: auto; }
 }
