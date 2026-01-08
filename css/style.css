@@ -626,11 +626,24 @@ a.btn { text-decoration: none; }
 }
 
 @media (max-width: 768px) {
-    #sd-cmp {
-        top: auto !important;
-        bottom: 0 !important;  
-    }
+  #sd-cmp {
+    /* On annule toute position "haut" */
+    top: auto !important;
+    
+    /* On le colle tout en bas */
+    bottom: 0 !important;
+    
+    /* On le laisse à droite (ou change à 'left: 0' si tu le veux à gauche) */
+    right: 0 !important;
+    
+    /* Sécurité : on supprime les marges qui pourraient le décoller */
+    margin-bottom: 0 !important;
+    
+    /* TEST DE FONCTIONNEMENT : Ajoute une bordure rouge temporaire */
+    border: 2px solid red !important;
+  }
 }
+
 
 
 
