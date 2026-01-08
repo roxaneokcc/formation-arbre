@@ -624,3 +624,11 @@ a.btn { text-decoration: none; }
   .badge-timer { top: -50px; right: 0; height: 24px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
   .badge-certif { left: 10px; top: -120px; width: 90px; right: auto; }
 }
+
+@media (max-width: 768px) {
+    #sd-cmp {
+        bottom: auto !important;
+        top: 90px !important;
+    }
+}
+
