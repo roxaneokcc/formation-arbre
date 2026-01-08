@@ -144,15 +144,15 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* --- PARTAGE (INVISIBLE) --- */
+  /* --- PARTAGE (JUSTE LE LIEN) --- */
   document.addEventListener("click", async (event) => {
     const shareBtn = event.target.closest(".btn-share");
     if (!shareBtn) return;
     
     const shareUrl = shareBtn.dataset.shareUrl || new URL("share.html", window.location.href).href;
+    
     const shareData = {
       title: "Collective for the Planet – Garnier x WWF",
-      text: "Je viens de me former à la méthode A.R.B.R.E avec Garnier x WWF ! À ton tour ? 🌲",
       url: shareUrl,
     };
 
@@ -163,6 +163,7 @@ document.addEventListener("DOMContentLoaded", () => {
       } catch (err) {
       }
     }
+
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(shareUrl);
