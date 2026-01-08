@@ -594,7 +594,7 @@ a.btn { text-decoration: none; }
   .hero-panel__inner {
     width: 100%;
     background: #ffffff;
-    padding: 25px 20px 30px;
+    padding: 25px 20px 90px;
     align-items: flex-start;
     text-align: left;
   }
@@ -616,7 +616,12 @@ a.btn { text-decoration: none; }
   .brand-banner__divider { height: 42px; }
 
   .hero--video .hero-panel__outer { padding: 0; box-shadow: none; }
-  .hero--video .hero-panel__inner { padding: 20px; align-items: center; text-align: center; box-shadow: 0 -5px 20px rgba(0,0,0,0.2); }
+  .hero--video .hero-panel__inner {
+    padding: 20px 20px 90px 20px; 
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 -5px 20px rgba(0,0,0,0.2);
+  }
   .hero--video .hero-panel__title { font-size: 18px; margin-bottom: 15px; text-align: left; width: 100%; }
   .hero--video .video-container { width: 100%; aspect-ratio: 16 / 9; margin: 0 0 20px; }
   .hero--video .btn--outline { width: 100%; text-align: center; }
@@ -624,7 +629,3 @@ a.btn { text-decoration: none; }
   .badge-timer { top: -50px; right: 0; height: 24px; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.15); }
   .badge-certif { left: 10px; top: -120px; width: 90px; right: auto; }
 }
-
-
-
-
