@@ -625,25 +625,6 @@ a.btn { text-decoration: none; }
   .badge-certif { left: 10px; top: -120px; width: 90px; right: auto; }
 }
 
-@media (max-width: 768px) {
-  #sd-cmp {
-    /* On annule toute position "haut" */
-    top: auto !important;
-    
-    /* On le colle tout en bas */
-    bottom: 0 !important;
-    
-    /* On le laisse à droite (ou change à 'left: 0' si tu le veux à gauche) */
-    right: 0 !important;
-    
-    /* Sécurité : on supprime les marges qui pourraient le décoller */
-    margin-bottom: 0 !important;
-    
-    /* TEST DE FONCTIONNEMENT : Ajoute une bordure rouge temporaire */
-    border: 2px solid red !important;
-  }
-}
-
 
 
 
