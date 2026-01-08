@@ -12,12 +12,11 @@ document.addEventListener("DOMContentLoaded", () => {
 
   if (!heroShell || heroes.length === 0) return;
 
-  // --- NOUVELLE FONCTION INTELLIGENTE DE GESTION VIDÉO ---
+  // --- GESTION VIDÉO ---
   function updateBgVideoState(activeHero) {
     if (!activeHero || !bgVideoPlayer || !bgVideoSource) return;
 
     const videoPath = activeHero.dataset.videoSrc;
-    
     const wantsVideo = activeHero.classList.contains("hero--bg-video") && videoPath;
 
     heroShell.classList.toggle("has-bg-video", wantsVideo);
@@ -38,10 +37,9 @@ document.addEventListener("DOMContentLoaded", () => {
     } else {
        try { 
          bgVideoPlayer.pause(); 
-        } catch (e) {}
+       } catch (e) {}
     }
   }
-
 
   function pauseAllVideosExceptBg() {
     document.querySelectorAll("video").forEach((vid) => {
@@ -146,10 +144,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  /* --- PARTAGE --- */
+  /* --- PARTAGE (INVISIBLE) --- */
   document.addEventListener("click", async (event) => {
     const shareBtn = event.target.closest(".btn-share");
     if (!shareBtn) return;
+    
     const shareUrl = shareBtn.dataset.shareUrl || new URL("share.html", window.location.href).href;
     const shareData = {
       title: "Collective for the Planet – Garnier x WWF",
@@ -158,12 +157,15 @@ document.addEventListener("DOMContentLoaded", () => {
     };
 
     if (navigator.share) {
-      try { await navigator.share(shareData); return; } catch (err) {}
+      try { 
+        await navigator.share(shareData); 
+        return; 
+      } catch (err) {
+      }
     }
     try {
       if (navigator.clipboard && navigator.clipboard.writeText) {
         await navigator.clipboard.writeText(shareUrl);
-        alert("Lien de partage copié 🙂");
       } else {
         const tmp = document.createElement("input");
         tmp.value = shareUrl;
@@ -171,10 +173,8 @@ document.addEventListener("DOMContentLoaded", () => {
         tmp.select();
         document.execCommand("copy");
         document.body.removeChild(tmp);
-        alert("Lien de partage copié 🙂");
       }
     } catch (e) {
-      alert("Impossible de copier le lien.");
     }
   });
 });
