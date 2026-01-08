@@ -179,28 +179,3 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
-
-/* =========================================================
-   NOUVEAU CODE : FORCE LE BANDEAU COOKIE EN BAS (MOBILE)
-   ========================================================= */
-document.addEventListener("DOMContentLoaded", () => {
-  if (window.innerWidth > 768) return;
-
-  const fixCookieInterval = setInterval(() => {
-    const cookieWidget = document.getElementById("sd-cmp");
-
-    if (cookieWidget) {
-      cookieWidget.style.setProperty("top", "auto", "important");
-      cookieWidget.style.setProperty("bottom", "0px", "important");
-      cookieWidget.style.setProperty("left", "0px", "important");
-      cookieWidget.style.setProperty("right", "0px", "important");
-      cookieWidget.style.setProperty("margin", "0", "important");
-      cookieWidget.style.setProperty("z-index", "2147483647", "important");
-
-      cookieWidget.style.border = "4px solid red"; 
-      // -----------------------------------------------------
-
-      clearInterval(fixCookieInterval);
-    }
-  }, 500);
-});
